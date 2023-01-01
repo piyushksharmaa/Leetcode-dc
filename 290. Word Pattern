@@ -1,0 +1,47 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        map<char,string> mp1;
+        map<string,char> mp2;
+        string temp="";
+        int start=0;
+        for(int i=0;i<s.size();i++){
+            if(s[i]!=' ' and i!=s.size()-1){
+                temp.push_back(s[i]);
+            }
+            else if(i==s.size()-1){
+                temp.push_back(s[i]);
+                if(mp1.count(pattern[start]) and mp1[pattern[start]]!=temp){
+                    return false;
+                }
+                else{
+                    mp1[pattern[start]]=temp;
+                }
+                if(mp2.count(temp) and mp2[temp]!=pattern[start]){
+                    return false;
+                }
+                else{
+                    mp2[temp]=pattern[start];
+                }
+            }
+            else{
+                if(mp1.count(pattern[start]) and mp1[pattern[start]]!=temp){
+                    return false;
+                }
+                else{
+                    mp1[pattern[start]]=temp;
+                }
+                if(mp2.count(temp) and mp2[temp]!=pattern[start]){
+                    return false;
+                }
+                else{
+                    mp2[temp]=pattern[start];
+                }
+                temp="";
+                start++;
+            }
+        }
+        if(start!=pattern.size()-1){return false;}
+        return true;
+    }
+};
