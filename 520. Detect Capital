@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool detectCapitalUse(string s) {
+        bool check1=true;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+            // a-> 97 and z-> 122
+            if(s[i]>=97 and s[i]<=122){
+                check1=false;
+                break;
+            }
+        }
+        bool check2=true;
+        for(int i=0;i<n;i++){
+            // A-> 65 and Z->90
+            if(s[i]>=65 and s[i]<=90){
+                check2=false;
+                break;
+            }
+        }
+        bool check3=true;
+        if(s[0]>=97 and s[0]<=122){check3=false;}
+        for(int i=1;i<n;i++){
+            if(s[i]>=65 and s[i]<=90){
+                check3=false;
+                break;
+            }
+        }
+        if(check1 or check2 or check3){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
