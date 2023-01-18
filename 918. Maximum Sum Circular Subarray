@@ -1,0 +1,66 @@
+/*
+Approach
+There are 2 possibility of The maximum subarray sum in circular array
+
+Maximum subarray sum in non circular array
+If max subarray sum in non circular array then we can simply apply Kadane's Algorithm and we will calculate the max_sum_subarray
+Example A=[-3,-5,3,5,7,3,5,-9] ans= 23
+2.Maximum subarray sum in circular array.
+
+If max subarray sum in circular array then we will calculate the minimum sum of subarray and Subtract it from total_sum of array.
+Example A=[11,1,-17,2,-15,9,13]
+circular.png
+
+Here we will remove {17,2,-15} from our total sum that will give us max subarray sum because max sum include some prefix and suffix part:-
+Ans= max(prefix+suffix)
+Ans= max(total sum - subarray)
+Ans=total sum + max(-subarray)
+Ans= total sum - min(subarray)
+Corner case -When all the element in the array are negative then our answer will be max_sum_subarray because if when all the element are negative at that time our total_sum - minsum_subary=0
+and it will return 0 means empty subarray thats why we will return max sum of subarray
+
+At last we will return
+max(subarray sum in non circular array,Maximum subarray sum in circular array)
+
+Complexity
+Time complexity:O(N)
+Space complexity:O(1)
+Code
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& A) {
+        int total_sum=0,curr_sum1=0,curr_sum2=0,mxsum_subary=INT_MIN,minsum_subary=INT_MAX;   
+        for(auto i:A)
+        {
+            total_sum+=i; curr_sum1+=i; curr_sum2+=i;
+            mxsum_subary=max(mxsum_subary,curr_sum1);
+            if(curr_sum1<0) curr_sum1=0;
+           minsum_subary=min(curr_sum2,minsum_subary);
+            if(curr_sum2>0) curr_sum2=0;
+        }
+        return (total_sum==minsum_subary)?mxsum_subary:max(mxsum_subary,total_sum-minsum_subary);  
+    }
+};
+
+*/
+
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        long long int total_sum=0,curr_sum1=0,curr_sum2=0,maxsum_subarr=INT_MIN,minsum_subarr=INT_MAX;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            total_sum+=nums[i];
+            curr_sum1+=nums[i];
+            curr_sum2+=nums[i];
+            maxsum_subarr=max(maxsum_subarr,curr_sum1);
+            minsum_subarr=min(minsum_subarr,curr_sum2);
+            if(curr_sum1<0){curr_sum1=0;}
+            if(curr_sum2>0){curr_sum2=0;}
+        }
+        if(total_sum==minsum_subarr){
+            return maxsum_subarr;
+        }
+        return max(maxsum_subarr,total_sum-minsum_subarr);
+    }
+};
