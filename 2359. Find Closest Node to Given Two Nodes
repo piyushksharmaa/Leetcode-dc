@@ -1,0 +1,50 @@
+// In this question what i did is to first find all the node's distances from node1 and node2 and then then find the common node to which both of them can go
+// As it will not have -1 in their dist vector. 
+// But there were some mistakes which i did while coding it out is that i have to consider that cases separately where distance is same as temp as if we have
+// same distance we have to return the node with lowest index.
+// And another mistake i did was to not return -1 if there is no common node, instead of which i just return INT_MAX.
+
+class Solution {
+public:
+    void solver(vector<int>& edges,vector<int>& dist,int node,int dis){
+        if(dist[node]!=-1){
+            return ;
+        }
+        dist[node]=dis;
+        if(edges[node]==-1){
+            return ;
+        }
+        solver(edges,dist,edges[node],dis+1);
+    }
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        int n=edges.size();
+        vector<int> dist1(n,-1),dist2(n,-1);
+        solver(edges,dist1,node1,0);
+        solver(edges,dist2,node2,0);
+        // for(int i=0;i<n;i++){
+        //     cout<<dist1[i]<<" ";
+        // }
+        // cout<<endl;
+        // for(int i=0;i<n;i++){
+        //     cout<<dist2[i]<<" ";
+        // }
+        // cout<<endl;
+        int dist=INT_MAX;
+        int node=INT_MAX;
+        for(int i=0;i<n;i++){
+            if(dist1[i]!=-1 and dist2[i]!=-1){
+                // dist=min(dist,max(dist1[i],dist2[i]));
+                int temp=max(dist1[i],dist2[i]);
+                if(temp<dist){
+                    dist=temp;
+                    node=i;
+                }
+                else if(temp==dist and node>i){
+                    node=i;   
+                }
+            }
+        }
+        if(node==INT_MAX){return -1;}
+        return node;
+    }
+};
